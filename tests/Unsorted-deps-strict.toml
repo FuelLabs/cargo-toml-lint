@@ -1,0 +1,12 @@
+[package]
+name = "testproj"
+version = "0.1.0"
+edition = "2022"
+
+[dependencies]
+a = "1"
+b = "1"
+d = "1"
+
+[dependencies.c]
+version = "1"

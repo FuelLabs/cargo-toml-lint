@@ -1,0 +1,11 @@
+[package]
+name = "cargo-toml-lint"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "3.0", features = ["derive"] }
+toml = { version = "0.5", features = ["preserve_order"] }
+
+[dev-dependencies]
+assert_cmd = "2.0.4"
