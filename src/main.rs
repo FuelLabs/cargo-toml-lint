@@ -13,25 +13,34 @@ struct Args {
     no_cargo_verify: bool,
 
     /// Require sorted dependency list
-    #[clap(short = 'd', long, arg_enum, default_value = "none")]
+    #[clap(short = 'D', long, arg_enum, default_value = "strict")]
     sort_dependencies: DependencySorting,
 
     /// Require `[[test]]` entries to be sorted by name field
-    #[clap(short = 't', long)]
-    sort_tests: bool,
+    #[clap(short = 'T', long, arg_enum, default_value = "enabled")]
+    sort_tests: Toggle,
 
     /// Require arrays of objects (`[[foo]]`) to placed contiguously
-    #[clap(short = 'a', long)]
-    contiguous_object_arrays: bool,
+    #[clap(short = 'A', long, arg_enum, default_value = "enabled")]
+    contiguous_object_arrays: Toggle,
 
     /// File to lint
     target: PathBuf,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ArgEnum)]
+enum Toggle {
+    #[clap(alias = "y", alias = "e")]
+    Enabled,
+    #[clap(alias = "n", alias = "d")]
+    Disabled,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ArgEnum)]
 enum DependencySorting {
+    #[clap(alias = "n", alias = "d")]
     None,
-    PerSection,
+    Section,
     Strict,
 }
 
@@ -50,7 +59,7 @@ fn main() -> Result<(), String> {
 
     match args.sort_dependencies {
         DependencySorting::None => {}
-        DependencySorting::PerSection => {
+        DependencySorting::Section => {
             verify_section_sorted(&contents, "[dependencies]")
                 .map_err(|err| format!("[dependencies] {}", err))?;
             verify_section_sorted(&contents, "[dev-dependencies]")
@@ -74,7 +83,7 @@ fn main() -> Result<(), String> {
         }
     }
 
-    if args.sort_tests {
+    if args.sort_tests == Toggle::Enabled {
         if let Some(d) = ff.get("test") {
             let t = d
                 .as_array()
@@ -84,7 +93,7 @@ fn main() -> Result<(), String> {
         }
     }
 
-    if args.contiguous_object_arrays {
+    if args.contiguous_object_arrays == Toggle::Enabled {
         verify_contiguous_object_arrays(&contents)?;
     }
 

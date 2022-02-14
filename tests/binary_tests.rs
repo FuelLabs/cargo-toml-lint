@@ -24,9 +24,7 @@ fn ok_test() {
         .unwrap()
         .arg("./tests/Ok-but-weird.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("per-section")
-        .arg("-t")
+        .arg("-Dsection")
         .assert();
 
     assert.success();
@@ -35,9 +33,7 @@ fn ok_test() {
         .unwrap()
         .arg("./tests/Ok-but-weird.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("strict")
-        .arg("-t")
+        .arg("-Dnone")
         .assert();
 
     assert.success();
@@ -49,6 +45,8 @@ fn unsorted_deps() {
         .unwrap()
         .arg("./tests/Unsorted-deps.toml")
         .arg("--no-cargo-verify")
+        .arg("-Dnone")
+        .arg("-Tn")
         .assert();
 
     assert.success();
@@ -57,9 +55,8 @@ fn unsorted_deps() {
         .unwrap()
         .arg("./tests/Unsorted-deps.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("per-section")
-        .arg("-t")
+        .arg("-Dsection")
+        .arg("-Tn")
         .assert();
 
     assert
@@ -70,9 +67,8 @@ fn unsorted_deps() {
         .unwrap()
         .arg("./tests/Unsorted-deps.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("strict")
-        .arg("-t")
+        .arg("-Dstrict")
+        .arg("-Tn")
         .assert();
 
     assert.failure().stderr(
@@ -86,6 +82,9 @@ fn unsorted_deps_only_strict_fails() {
         .unwrap()
         .arg("./tests/Unsorted-deps-strict.toml")
         .arg("--no-cargo-verify")
+        .arg("-Dn")
+        .arg("-Ty")
+        .arg("-Ay")
         .assert();
 
     assert.success();
@@ -94,9 +93,9 @@ fn unsorted_deps_only_strict_fails() {
         .unwrap()
         .arg("./tests/Unsorted-deps-strict.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("per-section")
-        .arg("-t")
+        .arg("-Dsection")
+        .arg("-Ty")
+        .arg("-Ay")
         .assert();
 
     assert.success();
@@ -105,9 +104,9 @@ fn unsorted_deps_only_strict_fails() {
         .unwrap()
         .arg("./tests/Unsorted-deps-strict.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("strict")
-        .arg("-t")
+        .arg("-Dstrict")
+        .arg("-Ty")
+        .arg("-Ay")
         .assert();
 
     assert.failure().stderr(
@@ -121,6 +120,9 @@ fn unsorted_tests() {
         .unwrap()
         .arg("./tests/Unsorted-tests.toml")
         .arg("--no-cargo-verify")
+        .arg("-Dn")
+        .arg("-Tn")
+        .arg("-An")
         .assert();
 
     assert.success();
@@ -129,9 +131,9 @@ fn unsorted_tests() {
         .unwrap()
         .arg("./tests/Unsorted-tests.toml")
         .arg("--no-cargo-verify")
-        .arg("-d")
-        .arg("strict")
-        .arg("-t")
+        .arg("-Dstrict")
+        .arg("-Ty")
+        .arg("-Ay")
         .assert();
 
     assert
@@ -145,6 +147,9 @@ fn split_test_array() {
         .unwrap()
         .arg("./tests/Split-test-array.toml")
         .arg("--no-cargo-verify")
+        .arg("-Dn")
+        .arg("-Tn")
+        .arg("-An")
         .assert();
 
     assert.success();
@@ -153,7 +158,9 @@ fn split_test_array() {
         .unwrap()
         .arg("./tests/Split-test-array.toml")
         .arg("--no-cargo-verify")
-        .arg("-at")
+        .arg("-Dn")
+        .arg("-Tn")
+        .arg("-Ay")
         .assert();
 
     assert.failure().stderr("Error: \"Items of [[test]] are separated by other headers, for instance [dependencies.c]\"\n");
