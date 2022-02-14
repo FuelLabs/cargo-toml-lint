@@ -69,14 +69,14 @@ fn main() -> Result<(), String> {
             if let Some(d) = ff.get("dependencies") {
                 let d = d
                     .as_table()
-                    .ok_or_else(|| format!("[dependencies] should be a table"))?;
+                    .ok_or_else(|| "[dependencies] should be a table".to_owned())?;
                 verify_deps_sorted_strict(d).map_err(|err| format!("[dependencies] {}", err))?;
             }
 
             if let Some(d) = ff.get("dev-dependencies") {
                 let d = d
                     .as_table()
-                    .ok_or_else(|| format!("[dev-dependencies] should be a table"))?;
+                    .ok_or_else(|| "[dev-dependencies] should be a table".to_owned())?;
                 verify_deps_sorted_strict(d)
                     .map_err(|err| format!("[dev-dependencies] {}", err))?;
             }
@@ -87,7 +87,7 @@ fn main() -> Result<(), String> {
         if let Some(d) = ff.get("test") {
             let t = d
                 .as_array()
-                .ok_or_else(|| format!("[[test]] should be an array"))?;
+                .ok_or_else(|| "[[test]] should be an array".to_owned())?;
             verify_list_of_objects_is_sorted_by_str(t, "name")
                 .map_err(|err| format!("[[test]] {}", err))?;
         }
