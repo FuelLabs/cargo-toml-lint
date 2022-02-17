@@ -2,6 +2,12 @@
 name = "cargo-toml-lint"
 version = "0.1.0"
 license = "Apache-2.0 OR MIT"
+description = "Linter for Cargo.toml"
+keywords = ["config", "cargo", "toml", "manifest", "linter"]
+categories = ["command-line-utilities", "config", "development-tools", "development-tools::cargo-plugins"]
+homepage = "https://github.com/FuelLabs/cargo-toml-lint"
+repository = "https://github.com/FuelLabs/cargo-toml-lint"
+readme = "README.md"
 edition = "2021"
 
 [dependencies]
