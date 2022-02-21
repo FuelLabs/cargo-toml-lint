@@ -88,3 +88,4 @@ jobs:
       with:
           publish-delay: 30000
           registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          no-verify: false
