@@ -63,6 +63,15 @@ jobs:
         command: test
         args: --verbose --all-targets
 
+    - name: Install the crates.io version of this crate
+      uses: baptiste0928/cargo-install@v1
+      with:
+        crate: cargo-toml-lint
+        version: "0.1"
+
+    - name: Check with crates.io version of this crate
+      run: cargo-toml-lint ./Cargo.toml
+
   publish:
     # Only do this job if publishing a release
     needs: build
