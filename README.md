@@ -1,5 +1,9 @@
 # `cargo-toml-lint` - a linter for `Cargo.toml`
 
+[![build](https://github.com/FuelLabs/cargo-toml-lint/actions/workflows/ci.yml/badge.svg)](https://github.com/FuelLabs/cargo-toml-lint/actions/workflows/ci.yml)
+[![crates.io](https://img.shields.io/crates/v/cargo-toml-lint?label=latest)](https://crates.io/crates/cargo-toml-lint)
+[![discord](https://img.shields.io/badge/chat%20on-discord-orange?&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/xfpK4Pe)
+
 Features:
 
 * Verify toml syntax
