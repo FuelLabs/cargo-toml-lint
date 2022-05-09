@@ -236,6 +236,9 @@ fn verify_contiguous_object_arrays(toml_data: &[u8]) -> Result<(), String> {
                             line,
                             seen_headers.last().unwrap()
                         ));
+                    } else {
+                        // Don't push duplicates
+                        continue;
                     }
                 }
             }
