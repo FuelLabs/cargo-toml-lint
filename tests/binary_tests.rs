@@ -40,6 +40,35 @@ fn ok_test() {
 }
 
 #[test]
+fn should_pass_test() {
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Should-pass.toml")
+        .arg("--no-cargo-verify")
+        .assert();
+
+    assert.success();
+
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Should-pass.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Dsection")
+        .assert();
+
+    assert.success();
+
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Should-pass.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Dnone")
+        .assert();
+
+    assert.success();
+}
+
+#[test]
 fn unsorted_deps() {
     let assert = Command::cargo_bin(assert_cmd::crate_name!())
         .unwrap()
