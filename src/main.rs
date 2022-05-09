@@ -158,6 +158,10 @@ fn verify_section_sorted(toml_data: &[u8], header: &str) -> Result<(), String> {
                 break;
             }
 
+            if line.starts_with(&[b'#']) {
+                continue;
+            }
+
             let mut it = line.split(|c| *c == b'=');
             if let Some(dep_name) = it.next() {
                 let dep_name = String::from_utf8_lossy(dep_name).into_owned();
