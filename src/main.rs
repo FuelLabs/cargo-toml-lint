@@ -24,6 +24,10 @@ struct Args {
     #[clap(short = 'A', long, arg_enum, default_value = "enabled")]
     contiguous_object_arrays: Toggle,
 
+    /// Require exactly one end-of-line at end of file
+    #[clap(short = 'N', long, arg_enum, default_value = "enabled")]
+    single_end_of_line: Toggle,
+
     /// File to lint
     target: PathBuf,
 }
@@ -95,6 +99,10 @@ fn main() -> Result<(), String> {
 
     if args.contiguous_object_arrays == Toggle::Enabled {
         verify_contiguous_object_arrays(&contents)?;
+    }
+
+    if args.single_end_of_line == Toggle::Enabled {
+        verify_single_end_of_line(&contents)?;
     }
 
     Ok(())
@@ -249,6 +257,18 @@ fn verify_contiguous_object_arrays(toml_data: &[u8]) -> Result<(), String> {
 
             seen_headers.push(line);
         }
+    }
+
+    Ok(())
+}
+
+fn verify_single_end_of_line(contents: &[u8]) -> Result<(), String> {
+    if !contents.ends_with(b"\n") {
+        return Err("File does not end with a new line".to_string());
+    }
+
+    if contents.ends_with(b"\n\n") || contents.ends_with(b"\r\n\r\n") {
+        return Err("File ends with multiple new lines".to_string());
     }
 
     Ok(())

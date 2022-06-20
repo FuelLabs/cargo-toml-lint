@@ -11,6 +11,7 @@ Features:
 * Check that `[dependencies]` and `[dev-dependencies]` are sorted alphabetically
 * Check that `[[test]]` are sorted by test name
 * Check all members of top-level object arrays (like) `[[test]]` are placed contiguously
+* Checks that the file ends with exactly one new line
 
 This is a best-effort linter. Currently custom parsing is really simplified, so it may:
 
