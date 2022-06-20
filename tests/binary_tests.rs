@@ -194,3 +194,61 @@ fn split_test_array() {
 
     assert.failure().stderr("Error: \"Items of [[test]] are separated by other headers, for instance [dependencies.c]\"\n");
 }
+
+#[test]
+fn extra_end_of_line() {
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Extra-end-of-line.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Nn")
+        .arg("-Dn")
+        .arg("-Tn")
+        .arg("-An")
+        .assert();
+
+    assert.success();
+
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Extra-end-of-line.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Ny")
+        .arg("-Dstrict")
+        .arg("-Ty")
+        .arg("-Ay")
+        .assert();
+
+    assert
+        .failure()
+        .stderr("Error: \"File ends with multiple new lines\"\n");
+}
+
+#[test]
+fn missing_end_of_line() {
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Missing-end-of-line.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Nn")
+        .arg("-Dn")
+        .arg("-Tn")
+        .arg("-An")
+        .assert();
+
+    assert.success();
+
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Missing-end-of-line.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Ny")
+        .arg("-Dstrict")
+        .arg("-Ty")
+        .arg("-Ay")
+        .assert();
+
+    assert
+        .failure()
+        .stderr("Error: \"File does not end with a new line\"\n");
+}
