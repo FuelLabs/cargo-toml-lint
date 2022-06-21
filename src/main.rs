@@ -28,6 +28,10 @@ struct Args {
     #[clap(short = 'N', long, arg_enum, default_value = "enabled")]
     single_end_of_line: Toggle,
 
+    /// Disallow trailing whitespace on any line
+    #[clap(short = 'E', long, arg_enum, default_value = "enabled")]
+    no_trailing_whitespace: Toggle,
+
     /// File to lint
     target: PathBuf,
 }
@@ -103,6 +107,10 @@ fn main() -> Result<(), String> {
 
     if args.single_end_of_line == Toggle::Enabled {
         verify_single_end_of_line(&contents)?;
+    }
+
+    if args.no_trailing_whitespace == Toggle::Enabled {
+        verify_no_trailing_whitespace(&contents)?;
     }
 
     Ok(())
@@ -269,6 +277,21 @@ fn verify_single_end_of_line(contents: &[u8]) -> Result<(), String> {
 
     if contents.ends_with(b"\n\n") || contents.ends_with(b"\r\n\r\n") {
         return Err("File ends with multiple new lines".to_string());
+    }
+
+    Ok(())
+}
+
+fn verify_no_trailing_whitespace(toml_data: &[u8]) -> Result<(), String> {
+    for (line_no, line) in toml_data.split(|c| *c == b'\n').enumerate() {
+        if let Some(last_char) = line.last() {
+            if last_char == &b' ' || last_char == &b'\t' {
+                return Err(format!(
+                    "Line {} ends with trailing whitespace",
+                    line_no + 1
+                ));
+            }
+        }
     }
 
     Ok(())
