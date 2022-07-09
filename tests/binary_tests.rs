@@ -252,3 +252,34 @@ fn missing_end_of_line() {
         .failure()
         .stderr("Error: \"File does not end with a new line\"\n");
 }
+
+#[test]
+fn trailing_white_space() {
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Trailing-white-space.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Nn")
+        .arg("-Dn")
+        .arg("-Tn")
+        .arg("-An")
+        .arg("-En")
+        .assert();
+
+    assert.success();
+
+    let assert = Command::cargo_bin(assert_cmd::crate_name!())
+        .unwrap()
+        .arg("./tests/Trailing-white-space.toml")
+        .arg("--no-cargo-verify")
+        .arg("-Ny")
+        .arg("-Dstrict")
+        .arg("-Ty")
+        .arg("-Ay")
+        .arg("-Ey")
+        .assert();
+
+    assert
+        .failure()
+        .stderr("Error: \"Line 8 ends with trailing whitespace\"\n");
+}
